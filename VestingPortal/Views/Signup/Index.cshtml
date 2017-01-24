@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Signup";
+}
+
+<h2>Signup</h2>
+<div class="container" ng-controller="signupController as signupCtrl">
+    <div class="row">
+        <div class="col-xs-6">
+            <form name="myForm" class="well" novalidate>
+                <div class="form-group"
+                     ng-class="{ 'has-error': myForm.fullname.$dirty && myForm.fullname.$invalid }">
+                    <label class="control-label">Full name</label>
+                    <input type="text" name="fullname" class="form-control" id="fullname" placeholder="Full name"
+                           ng-pattern="signupCtrl.fullnameFormat"
+                           ng-model="signupCtrl.Fullname" required>
+                    <span ng-show="myForm.fullname.$dirty && myForm.fullname.$invalid">
+                        <span ng-show="myForm.fullname.$error.required" class="control-label">Username is required.</span>
+                        <span ng-show="myForm.fullname.$error.pattern" class="control-label">Username contains only letters.</span>
+                    </span>
+                </div>
+                <div class="form-group"
+                     ng-class="{ 'has-error': myForm.email.$dirty && myForm.email.$invalid }">
+                    <label for="email">Email address</label>
+                    <input type="email" name="email" class="form-control has-error" id="email" placeholder="Email"
+                           ng-pattern="signupCtrl.emailFormat"
+                           ng-model="signupCtrl.Email" required>
+                    <span ng-show="myForm.email.$dirty && myForm.email.$invalid">
+                        <span ng-show="myForm.email.$error.required">Email is required.</span>
+                        <span ng-show="myForm.email.$error.pattern">Invalid email address.</span>
+                    </span>
+                </div>
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" name="newsletter" id="newsletter" ng-model="signupCtrl.HasNewsletter"
+                               ng-true-value="'true'" ng-false-value="'false'">
+                        I want to receive the awesome newsletter
+                    </label>
+                </div>
+                <p>
+                    <input type="submit" ng-click="signupCtrl.AddToSignupList()"
+                           ng-disabled="(!myForm.fullname.$dirty || myForm.fullname.$invalid) || (!myForm.email.$dirty || myForm.email.$invalid)">
+                </p>
+            </form>
+        </div>
+        <div class="col-xs-6">
+            <label>List with signed up users</label>
+            <ul class="unstyled">
+                <li ng-repeat="user in signupCtrl.SignupUserList">
+                    <div>{{user.Fullname}} ({{user.Email }})<span ng-show="user.HasNewsletter"> wants the newsletter</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
